@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.*
+!.env.example
+out/
+cache/
+broadcast/
+.next/
+*.sqlite
+studio/logs/*.tmp
+dist/
+coverage/
+.DS_Store
