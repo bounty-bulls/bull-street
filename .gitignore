@@ -18,6 +18,7 @@ contracts/broadcast/
 
 # local data
 data/
+!services/shared/src/data/
 *.sqlite
 *.sqlite-journal
 deploy/31337/
