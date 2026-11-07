@@ -140,7 +140,10 @@ export const usePersonas = () => useContext(PersonaContext);
 function WalletLayer({ children }: { children: ReactNode }) {
   const { data: personas } = useQuery({ queryKey: ["personas"], queryFn: () => api<Persona[]>("/personas"), staleTime: Infinity, retry: 1 });
   const ready = !IS_LOCAL || personas !== undefined;
-  const config = useMemo(() => (ready ? buildConfig(personas ?? []) : null), [ready, personas]);
+  // Personas only feed the local mock connectors. Depending on them elsewhere would swap the wagmi config
+  // when /personas resolves, and a replaced config never reconnects, so the saved wallet would drop.
+  const localPersonas = IS_LOCAL ? personas : undefined;
+  const config = useMemo(() => (ready ? buildConfig(localPersonas ?? []) : null), [ready, localPersonas]);
   if (!config) return null;
   return (
     <PersonaContext.Provider value={personas ?? []}>
